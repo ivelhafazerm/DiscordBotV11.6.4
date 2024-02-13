@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 module.exports = {
-    name: 'sol',
+    name: 'sei',
     description: 'token Price',
     async execute(message, args) {
         try {
@@ -13,7 +13,7 @@ module.exports = {
                 return color;
             }
             const axios = require('axios');
-            const ids = 'solana';
+            const ids = 'sei-network';
             const CoinGecko_API_URL = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${ids}&x_cg_demo_api_key=CG-ifv4ChivUP3My2FAa6UuuKTo`;
             const response = await axios.get(CoinGecko_API_URL);
             const pairData = response.data;
@@ -26,19 +26,16 @@ module.exports = {
                 const formattedPrice = numberWithCommas(calculatedPrice.toFixed(0));
                 message.channel.send(`$${formattedPrice}`);
             } else {
-
-                const num = parseFloat(pairData[0].current_price);
-                const formattedPrice = numberWithCommas(num);
                 const embed = new Discord.RichEmbed()
                     .setColor(`${getRandomColor()}`)
-                    .setDescription(`## $${formattedPrice}`)
+                    .setDescription(`## $${pairData[0].current_price}`)
                     .setFooter(`${pairData[0].name}`, `${pairData[0].image}`);
 
                 message.channel.send(embed);
             }
         } catch (error) {
             console.error('Error fetching data from CoinGecko API:', error);
-            message.channel.send('An error occurred while fetching data from the DexScreener API.');
+            message.channel.send('An error occurred while fetching data from the CoinGecko API.');
         }
     },
 
